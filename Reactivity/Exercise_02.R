@@ -64,7 +64,8 @@ server <- function(input, output, session) {
     iris[, c(input$xcol, input$ycol)]
   })
   
-  model <- reactive({ # prefer this instead of observers to model calculations to avoid invalidated interactions
+  ## model in a separate reactive expression to avoid running model or select more than when it needs to be run
+  model <- reactive({ ## prefer this instead of observers to model calculations to avoid invalidated interactions
     lm(paste(input$ycol, "~", input$xcol), selected())
   })
   
