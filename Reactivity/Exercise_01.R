@@ -25,6 +25,33 @@ server <- function(input, output, session) {
   output$table <- renderTable({
     head(cars, input$nrows)
   })
+  
+  # solution
+  data <- reactive({ # reactive expression
+    head(cars, input$nrows)
+    })
+  
+   output$plot <- renderPlot({
+    plot(data()) # notice the ()
+  })
+  
+  output$table <- renderTable({
+    data()
+  })
+  
+  # anti-solution 1: better for larger app with longer codes
+  values <- reactiveValues(df = cars) # make a value object using reactiveValues
+  observe({ # still run several times
+    values$df <- head(cars, input$nrows) # can't do df <- head(cars, input$nrows) directly. 
+    }) # Shiny doesn't deal with regular variable. It only deal with reactive variables
+  
+  output$plot <- renderPlot({
+    plot(values$df)
+    })
+  
+  output$table <- renderTable({
+    values$df
+    })
 }
 
 shinyApp(ui, server)
