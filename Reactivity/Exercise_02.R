@@ -58,6 +58,29 @@ server <- function(input, output, session) {
     
     head(selected, input$rows)
   })
+  
+  # solution
+  selected <- reactive({
+    iris[, c(input$xcol, input$ycol)]
+  })
+  
+  model <- reactive({
+    lm(paste(input$ycol, "~", input$xcol), selected())
+  })
+  
+  output$plot <- renderPlot({
+    plot(selected())
+    abline(model())
+  })
+  
+  output$dataInfo <- renderPrint({
+    summary(selected())
+  })
+  
+  output$table <- renderTable({
+    head(selected(), input$rows)
+  })
+  
 }
 
 shinyApp(ui, server)
