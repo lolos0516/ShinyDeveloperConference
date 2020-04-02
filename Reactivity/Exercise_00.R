@@ -15,6 +15,7 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   # Assignment: Plot the first input$nrows columns of a
   # data frame of your choosing, using head() and plot()
+  output$plot <- plot(head(cars, nrows))
 }
 
 shinyApp(ui, server)
