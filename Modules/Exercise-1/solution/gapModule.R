@@ -4,14 +4,14 @@ gapModuleUI <- function(id) {
   ns <- NS(id)
   
   tagList(
-    plotOutput(ns("plot")),
+    plotOutput(ns("plot")),                                     # here the same as original ui + using ns()
     sliderInput(ns("year"), "Select Year", value = 1952, 
                 min = 1952, max = 2007, step = 5,  
                 animate = animationOptions(interval = 500))
   )
 }
 
-gapModule <- function(input, output, session) {
+gapModule <- function(input, output, session) {                 # inside the same as original server
   
   # collect one year of data
   ydata <- reactive({
